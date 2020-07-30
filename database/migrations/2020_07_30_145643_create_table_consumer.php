@@ -1,0 +1,36 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateTableConsumer extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('consumer', function (Blueprint $table) {
+            $table->bigIncrements("consumer_id");
+            $table->double("consumption_limit",20,4);           
+            $table->unsignedBigInteger("user_id");
+            $table->timestamps();
+
+            $table->foreign("user_id")->references("user_id")->on("user");
+
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('consumer');
+    }
+}
