@@ -36,6 +36,7 @@ class UserController extends Controller
     {
         $data = $request->all();
         try {
+            $data['password'] = bcrypt($data['password']);
             $user = $this->user->create($data);
             return response()->json([
                 'data' => [
@@ -80,11 +81,18 @@ class UserController extends Controller
     {
         $data = $request->all();
         try {
+
+            if ($request->has('password') || $request->get('password')) {
+                $data['password'] = bcrypt($data['password']);
+            } else {
+                unset($data['password']);
+            }
+
             $user = $this->user->findOrFail($id);
             $user->update($data);
             return response()->json([
                 'data' => [
-                    'message' => 'Use was updated'
+                    'message' => 'User was updated'
                 ]
             ], 200);
         } catch (\Exception $e) {
