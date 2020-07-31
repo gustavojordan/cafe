@@ -3,11 +3,20 @@
 namespace App\Http\Controllers\Api;
 
 use App\Api\ApiMessages;
+use App\Drink;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DrinkRequest;
 
 class DrinkController extends Controller
 {
+
+    private $drink;
+
+    public function __construct(Drink $drink)
+    {
+        $this->drink = $drink;
+    }
+
     public function index()
     {
         $drinks = $this->drink->paginate('10');

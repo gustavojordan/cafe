@@ -27,4 +27,8 @@ Route::prefix('v1')->namespace('Api')->group(function () {
     Route::prefix('cafe')->name('users.')->group(function () {
         Route::resource('/users', 'UserController');
     });
+
+    Route::prefix('cafe')->name('drinks.')->group(function () {
+        Route::resource('/drinks', 'DrinkController');
+    });
 });

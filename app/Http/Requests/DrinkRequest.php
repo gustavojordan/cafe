@@ -24,7 +24,9 @@ class DrinkRequest extends FormRequest
     public function rules()
     {
         return [
-            'name', 'description', 'caffeine'
+            'name' => ['required', 'string', 'unique:drink,name'],
+            'description' => ['required', 'string'],
+            'caffeine' => ['required'],
         ];
     }
 }
