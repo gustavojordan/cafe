@@ -15,11 +15,11 @@ class Consumption extends Model
 
     public function drink()
     {
-        return $this->belongsTo(Drink::class);
+        return $this->belongsToMany(Drink::class);
     }
 
     public function consumer()
     {
-        return $this->belongsTo(Consumer::class);
+        return $this->belongsToMany(Consumer::class);
     }
 }

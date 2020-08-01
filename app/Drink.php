@@ -15,6 +15,6 @@ class Drink extends Model
 
     public function consumption()
     {
-        return $this->hasMany(Consumption::class);
+        return $this->belongsToMany(Consumption::class);
     }
 }

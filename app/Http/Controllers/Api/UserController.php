@@ -6,6 +6,7 @@ use App\Api\ApiMessages;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
 use App\User;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -57,8 +58,11 @@ class UserController extends Controller
      */
     public function show($id)
     {
+        Validator::make(['user_id' => $id], [
+            'user_id' => ['required', 'exists:user,user_id']
+        ])->validate();
         try {
-            $user = $this->user->findOrFail($id);
+            $user = $this->user->with('consumer')->findOrFail($id);
             return response()->json([
                 'data' => [
                     $user
@@ -109,6 +113,9 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
+        Validator::make(['user_id' => $id], [
+            'user_id' => ['required', 'exists:user,user_id']
+        ])->validate();
         try {
             $user = $this->user->findOrFail($id);
             $user->delete();

@@ -24,8 +24,8 @@ class ConsumerRequest extends FormRequest
     public function rules()
     {
         return  [
-            'consumption_limit' => 'required',
-            'user_id' => ['required','unique:user']
+            'consumption_limit' => ['required'],
+            'user_id' => ['required','unique:user','exists:user,user_id']
         ];
     }
 }

@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class ConsumptionRequest extends FormRequest
 {
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -24,7 +25,8 @@ class ConsumptionRequest extends FormRequest
     public function rules()
     {
         return [
-            'drink_id', 'consumer_id'
+            'drink_id' => ['required', 'exists:drink,drink_id'],
+            'consumer_id' => ['required', 'exists:consumer,consumer_id']
         ];
     }
 }

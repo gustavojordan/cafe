@@ -22,6 +22,8 @@ Route::prefix('v1')->namespace('Api')->group(function () {
 
     Route::prefix('cafe')->name('cafe.')->group(function () {
         Route::resource('/consumer', 'ConsumerController');
+        Route::post('/consumer/{consumer_id}/consume', 'ConsumerController@consume');
+        Route::get('/consumer/{consumer_id}/consumption', 'ConsumerController@consumption');
     });
 
     Route::prefix('cafe')->name('users.')->group(function () {
@@ -30,5 +32,9 @@ Route::prefix('v1')->namespace('Api')->group(function () {
 
     Route::prefix('cafe')->name('drinks.')->group(function () {
         Route::resource('/drinks', 'DrinkController');
+    });
+
+    Route::prefix('cafe')->name('consumption.')->group(function () {
+        Route::resource('/consumption', 'ConsumptionController');
     });
 });

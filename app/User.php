@@ -42,6 +42,6 @@ class User extends Authenticatable
 
     public function consumer()
     {
-        return $this->hasMany(Consumer::class);
+        return $this->hasOne(Consumer::class, 'consumer_id');
     }
 }

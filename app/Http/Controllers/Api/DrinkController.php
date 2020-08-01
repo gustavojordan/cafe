@@ -6,6 +6,7 @@ use App\Api\ApiMessages;
 use App\Drink;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DrinkRequest;
+use Illuminate\Support\Facades\Validator;
 
 class DrinkController extends Controller
 {
@@ -25,6 +26,9 @@ class DrinkController extends Controller
 
     public function show($id)
     {
+        Validator::make(['drink_id' => $id], [
+            'drink_id' => ['required', 'exists:drink,drink_id']
+        ])->validate();
         try {
             $drink = $this->drink->findOrFail($id);
             return response()->json([
@@ -72,6 +76,9 @@ class DrinkController extends Controller
 
     public function destroy($id)
     {
+        Validator::make(['drink_id' => $id], [
+            'drink_id' => ['required', 'exists:drink,drink_id']
+        ])->validate();
         try {
             $drink = $this->drink->findOrFail($id);
             $drink->delete();
