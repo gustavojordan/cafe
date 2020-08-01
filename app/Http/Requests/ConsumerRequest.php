@@ -25,7 +25,8 @@ class ConsumerRequest extends FormRequest
     {
         return  [
             'consumption_limit' => ['required'],
-            'user_id' => ['required','unique:user','exists:user,user_id']
+            'user_id' => ['required', 'unique:consumer', 'exists:user,user_id'],
+            'favorite_drinks.*' => ['required', 'exists:drink,drink_id'],
         ];
     }
 }

@@ -24,13 +24,13 @@ class DrinkController extends Controller
         return response()->json($drinks, 200);
     }
 
-    public function show($id)
+    public function show($drink_id)
     {
-        Validator::make(['drink_id' => $id], [
+        Validator::make(['drink_id' => $drink_id], [
             'drink_id' => ['required', 'exists:drink,drink_id']
         ])->validate();
         try {
-            $drink = $this->drink->findOrFail($id);
+            $drink = $this->drink->findOrFail($drink_id);
             return response()->json([
                 'data' => [
                     $drink
@@ -45,7 +45,9 @@ class DrinkController extends Controller
     {
         $data = $request->all();
         try {
+            $this->drink->beginTransaction();
             $drink = $this->drink->create($data);
+            $this->drink->commit();
             return response()->json([
                 'data' => [
                     'message' => 'Drink was registered'
@@ -53,41 +55,53 @@ class DrinkController extends Controller
             ], 200);
         } catch (\Exception $e) {
             $message = new ApiMessages($e->getMessage());
+            $this->drink->rollback();
             return response()->json($message->getMessage(), 401);
         }
     }
 
-    public function update($id, DrinkRequest $request)
+    public function update($drink_id, DrinkRequest $request)
     {
         $data = $request->all();
         try {
-            $drink = $this->drink->findOrFail($id);
+            $this->drink->beginTransaction();
+
+            $drink = $this->drink->findOrFail($drink_id);
             $drink->update($data);
+            $this->drink->commit();
+
             return response()->json([
                 'data' => [
                     'message' => 'Drink was updated'
                 ]
             ], 200);
         } catch (\Exception $e) {
+            $this->drink->rollback();
+
             $message = new ApiMessages($e->getMessage());
             return response()->json($message->getMessage(), 401);
         }
     }
 
-    public function destroy($id)
+    public function destroy($drink_id)
     {
-        Validator::make(['drink_id' => $id], [
+        Validator::make(['drink_id' => $drink_id], [
             'drink_id' => ['required', 'exists:drink,drink_id']
         ])->validate();
         try {
-            $drink = $this->drink->findOrFail($id);
+            $this->drink->beginTransaction();
+            $drink = $this->drink->findOrFail($drink_id);
             $drink->delete();
+            $this->drink->commit();
+
             return response()->json([
                 'data' => [
                     'message' => 'Drink was deleted'
                 ]
             ], 200);
         } catch (\Exception $e) {
+            $this->drink->rollback();
+
             $message = new ApiMessages($e->getMessage());
             return response()->json($message->getMessage(), 401);
         }

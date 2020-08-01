@@ -2,9 +2,7 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Consumer extends Model
+class Consumer extends MyModel
 {
 
     protected $primaryKey = 'consumer_id';
@@ -17,6 +15,15 @@ class Consumer extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function favoriteDrinks()
+    {
+        return $this->hasMany(ConsumerDrinkFavorite::class, 'consumer_id');
+    }
+
+    public function saveDrinkFavorite()
+    {
+        return $this->belongsToMany(ConsumerDrinkFavorite::class, 'consumer_drink_favorite', 'consumer_id', 'drink_id')->withTimestamps();
     }
 
     public function consumption()

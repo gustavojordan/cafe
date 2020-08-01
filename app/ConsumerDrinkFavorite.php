@@ -4,14 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Consumption extends MyModel
+class ConsumerDrinkFavorite extends MyModel
 {
-    //
-    protected $primaryKey = 'consumption_id';
-    protected $table = 'consumption';
+    protected $primaryKey = 'consumer_drink_favorite_id';
+    protected $table = 'consumer_drink_favorite';
     protected $fillable = [
         'drink_id', 'consumer_id'
     ];
+
 
     public function drink()
     {

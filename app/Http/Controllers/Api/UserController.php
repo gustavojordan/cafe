@@ -37,14 +37,18 @@ class UserController extends Controller
     {
         $data = $request->all();
         try {
+            $this->user->beginTransaction();
             $data['password'] = bcrypt($data['password']);
             $user = $this->user->create($data);
+            $this->user->commit();
+
             return response()->json([
                 'data' => [
                     'message' => 'User was registered'
                 ]
             ], 200);
         } catch (\Exception $e) {
+            $this->user->rollback();
             $message = new ApiMessages($e->getMessage());
             return response()->json($message->getMessage(), 401);
         }
@@ -53,16 +57,16 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $user_id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($user_id)
     {
-        Validator::make(['user_id' => $id], [
+        Validator::make(['user_id' => $user_id], [
             'user_id' => ['required', 'exists:user,user_id']
         ])->validate();
         try {
-            $user = $this->user->with('consumer')->findOrFail($id);
+            $user = $this->user->with('consumer')->findOrFail($user_id);
             return response()->json([
                 'data' => [
                     $user
@@ -78,13 +82,14 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  int  $user_id
      * @return \Illuminate\Http\Response
      */
-    public function update(UserRequest $request, $id)
+    public function update(UserRequest $request, $user_id)
     {
         $data = $request->all();
         try {
+            $this->user->beginTransaction();
 
             if ($request->has('password') || $request->get('password')) {
                 $data['password'] = bcrypt($data['password']);
@@ -92,14 +97,17 @@ class UserController extends Controller
                 unset($data['password']);
             }
 
-            $user = $this->user->findOrFail($id);
+            $user = $this->user->findOrFail($user_id);
             $user->update($data);
+            $this->user->commit();
+
             return response()->json([
                 'data' => [
                     'message' => 'User was updated'
                 ]
             ], 200);
         } catch (\Exception $e) {
+            $this->user->rollback();
             $message = new ApiMessages($e->getMessage());
             return response()->json($message->getMessage(), 401);
         }
@@ -108,23 +116,27 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $user_id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($user_id)
     {
-        Validator::make(['user_id' => $id], [
+        Validator::make(['user_id' => $user_id], [
             'user_id' => ['required', 'exists:user,user_id']
         ])->validate();
         try {
-            $user = $this->user->findOrFail($id);
+            $this->user->beginTransaction();
+            $user = $this->user->findOrFail($user_id);
             $user->delete();
+            $this->user->commit();
+
             return response()->json([
                 'data' => [
                     'message' => 'User was deleted'
                 ]
             ], 200);
         } catch (\Exception $e) {
+            $this->user->rollback();
             $message = new ApiMessages($e->getMessage());
             return response()->json($message->getMessage(), 401);
         }

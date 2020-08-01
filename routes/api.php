@@ -20,21 +20,36 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::prefix('v1')->namespace('Api')->group(function () {
 
-    Route::prefix('cafe')->name('cafe.')->group(function () {
-        Route::resource('/consumer', 'ConsumerController');
-        Route::post('/consumer/{consumer_id}/consume', 'ConsumerController@consume');
-        Route::get('/consumer/{consumer_id}/consumption', 'ConsumerController@consumption');
+    Route::prefix('cafe')->name('login.')->group(function () {
+        Route::post('/login', 'Auth\LoginJwtController@login');
     });
 
-    Route::prefix('cafe')->name('users.')->group(function () {
-        Route::resource('/users', 'UserController');
+    Route::prefix('cafe')->name('login.')->group(function () {
+        Route::get('/logout', 'Auth\LoginJwtController@logout');
     });
 
-    Route::prefix('cafe')->name('drinks.')->group(function () {
-        Route::resource('/drinks', 'DrinkController');
+    Route::prefix('cafe')->name('login.')->group(function () {
+        Route::get('/refresh', 'Auth\LoginJwtController@refresh');
     });
 
-    Route::prefix('cafe')->name('consumption.')->group(function () {
-        Route::resource('/consumption', 'ConsumptionController');
+
+    Route::group(['middleware' => []], function () {
+        Route::prefix('cafe')->name('cafe.')->group(function () {
+            Route::resource('/consumer', 'ConsumerController');
+            Route::post('/consumer/{consumer_id}/consume', 'ConsumerController@consume');
+            Route::get('/consumer/{consumer_id}/consumption', 'ConsumerController@consumption');
+        });
+
+        Route::prefix('cafe')->name('users.')->group(function () {
+            Route::resource('/users', 'UserController');
+        });
+
+        Route::prefix('cafe')->name('drinks.')->group(function () {
+            Route::resource('/drinks', 'DrinkController');
+        });
+
+        Route::prefix('cafe')->name('consumption.')->group(function () {
+            Route::resource('/consumption', 'ConsumptionController');
+        });
     });
 });

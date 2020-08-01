@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Drink extends Model
+class Drink extends MyModel
 {
     protected $primaryKey = 'drink_id';
     protected $table = 'drink';
@@ -16,5 +16,10 @@ class Drink extends Model
     public function consumption()
     {
         return $this->belongsToMany(Consumption::class);
+    }
+
+    public function consumerDrinkFavorite()
+    {
+        return $this->belongsToMany(ConsumerDrinkFavorite::class);
     }
 }
