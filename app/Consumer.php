@@ -20,27 +20,27 @@ class Consumer extends MyModel
     {
         return [
             [
-                'href' => route('consumers.consumer.show', ['consumer' => $this->consumer_id]),
+                'href' => route('consumers.consumers.show', ['consumer' => $this->consumer_id]),
                 'rel' => 'self'
             ],
             [
-                'href' => route('consumers.consumer.consume', ['consumer_id' => $this->consumer_id]),
+                'href' => route('consumers.consumers.consume', ['consumer_id' => $this->consumer_id]),
                 'rel' => 'consume'
             ],
             [
-                'href' => route('consumers.consumer.consumption', ['consumer_id' => $this->consumer_id]),
+                'href' => route('consumers.consumers.consumption', ['consumer_id' => $this->consumer_id]),
                 'rel' => 'consumption'
             ],
             [
-                'href' => route('consumers.consumer.qtyallowedperdrink', ['consumer_id' => $this->consumer_id]),
+                'href' => route('consumers.consumers.qtyallowedperdrink', ['consumer_id' => $this->consumer_id]),
                 'rel' => 'qtyallowedperdrink'
             ],
             [
-                'href' => route('consumers.consumer.consumptionperdrink', ['consumer_id' => $this->consumer_id]),
+                'href' => route('consumers.consumers.consumptionperdrink', ['consumer_id' => $this->consumer_id]),
                 'rel' => 'consumptionperdrink'
             ],
             [
-                'href' => route('consumers.consumer.totalconsumption', ['consumer_id' => $this->consumer_id]),
+                'href' => route('consumers.consumers.totalconsumption', ['consumer_id' => $this->consumer_id]),
                 'rel' => 'totalconsumption'
             ]
         ];

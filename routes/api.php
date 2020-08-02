@@ -29,14 +29,14 @@ Route::prefix('v1')->namespace('Api')->group(function () {
     });
 
 
-    Route::group(['middleware' => []], function () {
+Route::group(['middleware' => /*['jwt.auth']*/[]], function () {
         Route::prefix('cafe')->name('consumers.')->group(function () {
-            Route::resource('/consumer', 'ConsumerController');
-            Route::post('/consumer/{consumer_id}/consume', 'ConsumerController@consume')->name('consumer.consume');
-            Route::get('/consumer/{consumer_id}/consumption', 'ConsumerController@consumption')->name('consumer.consumption');;
-            Route::get('/consumer/{consumer_id}/qtyallowedperdrink', 'ConsumerController@qtyAllowedPerDrink')->name('consumer.qtyallowedperdrink');;
-            Route::get('/consumer/{consumer_id}/consumptionperdrink', 'ConsumerController@consumptionPerDrink')->name('consumer.consumptionperdrink');;
-            Route::get('/consumer/{consumer_id}/totalconsumption', 'ConsumerController@totalConsumption')->name('consumer.totalconsumption');;
+            Route::resource('/consumers', 'ConsumerController');
+            Route::post('/consumers/{consumer_id}/consume', 'ConsumerController@consume')->name('consumers.consume');
+            Route::get('/consumers/{consumer_id}/consumption', 'ConsumerController@consumption')->name('consumers.consumption');;
+            Route::get('/consumers/{consumer_id}/qtyallowedperdrink', 'ConsumerController@qtyAllowedPerDrink')->name('consumers.qtyallowedperdrink');;
+            Route::get('/consumers/{consumer_id}/consumptionperdrink', 'ConsumerController@consumptionPerDrink')->name('consumers.consumptionperdrink');;
+            Route::get('/consumers/{consumer_id}/totalconsumption', 'ConsumerController@totalConsumption')->name('consumers.totalconsumption');;
         });
 
         Route::prefix('cafe')->name('users.')->group(function () {
