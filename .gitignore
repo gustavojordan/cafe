@@ -7,3 +7,4 @@
 npm-debug.log
 yarn-error.log
 run/var
+.composer.lock
