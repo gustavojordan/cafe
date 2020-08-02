@@ -6,6 +6,8 @@ namespace App;
 class Consumer extends MyModel
 {
 
+    protected $appends = ['links'];
+
     protected $primaryKey = 'consumer_id';
     protected $table = 'consumer';
     protected $fillable = [
@@ -13,6 +15,36 @@ class Consumer extends MyModel
     ];
     protected $hidden = array('pivot');
 
+
+    public function getLinksAttribute()
+    {
+        return [
+            [
+                'href' => route('consumers.consumer.show', ['consumer' => $this->consumer_id]),
+                'rel' => 'self'
+            ],
+            [
+                'href' => route('consumers.consumer.consume', ['consumer_id' => $this->consumer_id]),
+                'rel' => 'consume'
+            ],
+            [
+                'href' => route('consumers.consumer.consumption', ['consumer_id' => $this->consumer_id]),
+                'rel' => 'consumption'
+            ],
+            [
+                'href' => route('consumers.consumer.qtyallowedperdrink', ['consumer_id' => $this->consumer_id]),
+                'rel' => 'qtyallowedperdrink'
+            ],
+            [
+                'href' => route('consumers.consumer.consumptionperdrink', ['consumer_id' => $this->consumer_id]),
+                'rel' => 'consumptionperdrink'
+            ],
+            [
+                'href' => route('consumers.consumer.totalconsumption', ['consumer_id' => $this->consumer_id]),
+                'rel' => 'totalconsumption'
+            ]
+        ];
+    }
     public function user()
     {
         return $this->belongsTo(User::class);

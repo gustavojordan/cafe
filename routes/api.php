@@ -14,33 +14,29 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::prefix('v1')->namespace('Api')->group(function () {
 
     Route::prefix('cafe')->name('login.')->group(function () {
-        Route::post('/login', 'Auth\LoginController@login');
+        Route::post('/login', 'Auth\LoginController@login')->name('login');
     });
 
     Route::prefix('cafe')->name('login.')->group(function () {
-        Route::get('/logout', 'Auth\LoginController@logout');
+        Route::get('/logout', 'Auth\LoginController@logout')->name('logout');;
     });
 
     Route::prefix('cafe')->name('login.')->group(function () {
-        Route::get('/refresh', 'Auth\LoginController@refresh');
+        Route::get('/refresh', 'Auth\LoginController@refresh')->name('refresh');;
     });
 
 
     Route::group(['middleware' => []], function () {
-        Route::prefix('cafe')->name('cafe.')->group(function () {
+        Route::prefix('cafe')->name('consumers.')->group(function () {
             Route::resource('/consumer', 'ConsumerController');
-            Route::post('/consumer/{consumer_id}/consume', 'ConsumerController@consume');
-            Route::get('/consumer/{consumer_id}/consumption', 'ConsumerController@consumption');
-            Route::get('/consumer/{consumer_id}/qtyallowedperdrink', 'ConsumerController@qtyAllowedPerDrink');
-            Route::get('/consumer/{consumer_id}/consumptionperdrink', 'ConsumerController@consumptionPerDrink');
-            Route::get('/consumer/{consumer_id}/totalconsumption', 'ConsumerController@totalConsumption');
+            Route::post('/consumer/{consumer_id}/consume', 'ConsumerController@consume')->name('consumer.consume');
+            Route::get('/consumer/{consumer_id}/consumption', 'ConsumerController@consumption')->name('consumer.consumption');;
+            Route::get('/consumer/{consumer_id}/qtyallowedperdrink', 'ConsumerController@qtyAllowedPerDrink')->name('consumer.qtyallowedperdrink');;
+            Route::get('/consumer/{consumer_id}/consumptionperdrink', 'ConsumerController@consumptionPerDrink')->name('consumer.consumptionperdrink');;
+            Route::get('/consumer/{consumer_id}/totalconsumption', 'ConsumerController@totalConsumption')->name('consumer.totalconsumption');;
         });
 
         Route::prefix('cafe')->name('users.')->group(function () {
