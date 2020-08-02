@@ -26,7 +26,7 @@ class AddUniqueToDrinkTable extends Migration
     public function down()
     {
         Schema::table('drink', function (Blueprint $table) {
-            //
+            $table->dropUnique('drink_name_unique');
         });
     }
 }

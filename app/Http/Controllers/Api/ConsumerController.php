@@ -24,11 +24,60 @@ class ConsumerController extends Controller
         return response()->json($consumer, 200);
     }
 
-    public function show($consumer_id)
+    public function totalConsumption($consumer_id)
     {
         Validator::make(['consumer_id' => $consumer_id], [
             'consumer_id' => ['required', 'exists:consumer,consumer_id']
         ])->validate();
+        try {
+            return response()->json([
+                'data' => [
+                    $this->consumer->totalConsumption($consumer_id)
+                ]
+            ], 200);
+        } catch (\Exception $e) {
+            $message = new ApiMessages($e->getMessage());
+            return response()->json($message->getMessage(), 401);
+        }
+    }
+
+    public function consumptionPerDrink($consumer_id)
+    {
+        Validator::make(['consumer_id' => $consumer_id], [
+            'consumer_id' => ['required', 'exists:consumer,consumer_id']
+        ])->validate();
+        try {
+            return response()->json([
+                'data' => [
+                    $this->consumer->consumptionPerDrink($consumer_id)
+                ]
+            ], 200);
+        } catch (\Exception $e) {
+            $message = new ApiMessages($e->getMessage());
+            return response()->json($message->getMessage(), 401);
+        }
+    }
+
+
+
+    public function qtyAllowedPerDrink($consumer_id)
+    {
+        Validator::make(['consumer_id' => $consumer_id], [
+            'consumer_id' => ['required', 'exists:consumer,consumer_id']
+        ])->validate();
+        try {
+            return response()->json([
+                'data' => [
+                    $this->consumer->qtyAllowedPerDrink($consumer_id)
+                ]
+            ], 200);
+        } catch (\Exception $e) {
+            $message = new ApiMessages($e->getMessage());
+            return response()->json($message->getMessage(), 401);
+        }
+    }
+    public function show($consumer_id)
+    {
         try {
             $consumer = $this->consumer->with('favoriteDrinks')->findOrFail($consumer_id);
             return response()->json([

@@ -26,7 +26,7 @@ class AddUniqueToConsumerTable extends Migration
     public function down()
     {
         Schema::table('consumer', function (Blueprint $table) {
-            //
+            $table->dropUnique('consumer_user_id_unique');
         });
     }
 }

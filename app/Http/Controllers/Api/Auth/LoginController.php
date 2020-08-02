@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class LoginJwtController extends Controller
+class LoginController extends Controller
 {
     public function login(Request $request)
     {

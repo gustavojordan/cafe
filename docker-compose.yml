@@ -23,6 +23,7 @@ services:
     container_name: mysql-db
     volumes:
       - ./run/var:/var/lib/mysql
+    command: --sql_mode=""
     ports:
         - 3306:3306
     environment:

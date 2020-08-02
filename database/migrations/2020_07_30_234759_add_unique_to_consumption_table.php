@@ -26,7 +26,7 @@ class AddUniqueToConsumptionTable extends Migration
     public function down()
     {
         Schema::table('consumption', function (Blueprint $table) {
-            //
+            $table->dropUnique('consumption_drink_id_created_at_consumer_id_unique');
         });
     }
 }
