@@ -29,7 +29,7 @@ Route::prefix('v1')->namespace('Api')->group(function () {
     });
 
 
-Route::group(['middleware' => /*['jwt.auth']*/[]], function () {
+Route::group(['middleware' => ['jwt.auth']], function () {
         Route::prefix('cafe')->name('consumers.')->group(function () {
             Route::resource('/consumers', 'ConsumerController');
             Route::post('/consumers/{consumer_id}/consume', 'ConsumerController@consume')->name('consumers.consume');

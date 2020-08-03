@@ -35,7 +35,7 @@ class LoginController extends Controller
         try {
             if (auth('api')->user()) {
                 auth('api')->logout();
-                return response()->json(['registered'], 200);
+                return response()->json(['Logout'], 200);
             } else {
                 $message = new ApiMessages('Access Unauthorized');
                 return response()->json($message->getMessage(), 401);

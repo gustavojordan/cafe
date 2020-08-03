@@ -67,7 +67,7 @@ class Consumer extends MyModel
     public function totalConsumption($consumer_id)
     {
         return $this->getConnectionResolver()->connection()->select("SELECT
-                SUM(total) total_consumed
+                IFNULL(SUM(total),0) total_consumed_caffeine
             FROM
                 (SELECT
                     COUNT(drink_id) * d.caffeine total
@@ -104,7 +104,7 @@ class Consumer extends MyModel
                     AND c.created_at >= DATE_FORMAT(NOW(), '%Y-%m-%d 00:00:00')
                     AND c.consumer_id = ?
                     OR c.drink_id IS NULL
-            GROUP BY c.drink_id
+            GROUP BY d.drink_id
             ORDER BY qty_consumed DESC", [$consumer_id]);
     }
 
@@ -118,7 +118,7 @@ class Consumer extends MyModel
                             FROM
                                 consumer c_in
                             WHERE
-                                c_in.consumer_id = ?) - (SELECT
+                                c_in.consumer_id = ?) - IFNULL((SELECT
                                 SUM(total) total_consumed
                             FROM
                                 (SELECT
@@ -130,7 +130,7 @@ class Consumer extends MyModel
                                     c.created_at <= DATE_FORMAT(NOW(), '%Y-%m-%d 23:59:59')
                                         AND c.created_at >= DATE_FORMAT(NOW(), '%Y-%m-%d 00:00:00')
                                         AND c.consumer_id = ?
-                                GROUP BY drink_id) a)) / d.caffeine) qty_allowed,
+                                GROUP BY drink_id) a),0)) / d.caffeine) qty_allowed,
                 d.description,
                 d.caffeine,
                 IF(cdf.consumer_drink_favorite_id IS NOT NULL,
@@ -141,9 +141,9 @@ class Consumer extends MyModel
                     LEFT JOIN
                 consumer_drink_favorite cdf ON cdf.drink_id = d.drink_id
                     LEFT JOIN
-                consumer c ON cdf.consumer_id = c.consumer_id
+                consumer c ON cdf.consumer_id = ?
             WHERE
                 c.consumer_id = ?
-                    OR c.consumer_id IS NULL", [$consumer_id, $consumer_id, $consumer_id]);
+                    OR c.consumer_id IS NULL", [$consumer_id, $consumer_id, $consumer_id, $consumer_id]);
     }
 }
