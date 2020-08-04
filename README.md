@@ -18,7 +18,7 @@ https://documenter.getpostman.com/view/12253802/T1DwbZ7d
 
 `docker-compose up -d`
 
-`docker exec -it laravel-app bash -c "sudo -u devuser /bin/bash" `
+`docker exec -it cafe-app bash -c "sudo -u devuser /bin/bash" `
 
 # Commands to execute inside of Docker
 `composer install`
